@@ -92,9 +92,9 @@ installHaProxy(){
 }
 setHaProxy(){
 	check_HaProxy
-	stty erase '^H' && read -p "Please fill in HaProxy local port to forward[1-65535](also support port range: 2333-6666): " HaProxyport
+	read -p "Please fill in HaProxy local port to forward[1-65535](also support port range: 2333-6666): " HaProxyport
 	[[ -z "${HaProxyport}" ]] && echo "Cancel..." && exit 1
-	stty erase '^H' && read -p "Please fill in HaProxy target IP:" HaProxyip
+	read -p "Please fill in HaProxy target IP:" HaProxyip
 	[[ -z "${HaProxyip}" ]] && echo "Cancel..." && exit 1
 	echo
 	echo "——————————————————————————————"
@@ -104,7 +104,7 @@ setHaProxy(){
 	echo -e "	Target IP : \033[41;37m ${HaProxyip} \033[0m"
 	echo "——————————————————————————————"
 	echo
-	stty erase '^H' && read -p "Press Enter to continue，or press Ctrl+C to cancel" var
+	read -p "Press Enter to continue，or press Ctrl+C to cancel" var
 	HaProxy_port_1=`cat ${HaProxy_cfg_file} | sed -n "12p" | cut -c 12-23 | grep "-"`
 	HaProxy_port=`cat ${HaProxy_cfg_file} | sed -n "12p" | cut -c 12-23`
 	if [[ ${HaProxy_port_1} = "" ]]; then
@@ -238,7 +238,7 @@ statusHaProxy(){
 uninstallHaProxy(){
 	check_HaProxy
 	echo "Do you want to remove HaProxy ? [y/N]"
-	stty erase '^H' && read -p "(Default: n):" unyn
+	read -p "(Default: n):" unyn
 	[[ -z ${unyn} ]] && unyn="n"
 	if [[ ${unyn} == [Yy] ]]; then
 		PID=`ps -ef | grep "haproxy" | grep -v grep | grep -v "haproxy.sh" | awk '{print $2}'`
