@@ -17,7 +17,7 @@ HaProxy_cfg_file="/etc/haproxy/haproxy.cfg"
 check_HaProxy(){
 	HaProxy_exist=`haproxy -v`
 	if [[ ${HaProxy_exist} = "" ]]; then
-		echo -e "\033[41;37m [Error] \033[0m HaProxy is not installed，please check again !" && exit 1
+		echo -e "\033[41;37m [Error] \033[0m HaProxy is not installed，please check again!" && exit 1
 	fi
 }
 #检查系统
@@ -61,17 +61,21 @@ Set_iptables(){
 installHaProxy(){
 	HaProxy_exist=`haproxy -v`
 	if [[ ${HaProxy_exist} != "" ]]; then
-		echo -e "\033[41;37m [Error] \033[0m HaProxy is already installed，please check again !" && exit 1
+		echo -e "\033[41;37m [Error] \033[0m HaProxy is already installed，please check again" && exit 1
 	fi
 	if [[ ${release}  == "centos" ]]; then
-		yum update && yum install -y vim haproxy
+		wget https://raw.githubusercontent.com/leonguyen52/doubi/master/haproxy
+		wget https://raw.githubusercontent.com/leonguyen52/doubi/master/haproxy.service
+		cp /root/haproxy /usr/sbin
+		chmod +x /usr/sbin/haproxy
+		cp /root/haproxy.service /etc/systemd/system/haproxy.service
 	else
 		apt-get update && apt-get install -y vim haproxy
 	fi
 	chmod +x /etc/rc.local
 	HaProxy_exist=`haproxy -v`
 	if [[ ${HaProxy_exist} = "" ]]; then
-		echo -e "\033[41;37m [Error] \033[0m Failed to install HaProxy, please check again!" && exit 1
+		echo -e "\033[41;37m [Error] \033[0m Failed to install HaProxy, please check again" && exit 1
 	else
 		Set_iptables
 		if [[ ${release}  == "centos" ]]; then
