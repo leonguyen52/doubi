@@ -1,0 +1,15 @@
+# File located at /etc/systemd/system/haproxy.service for CentOS 7
+# Reference https://github.com/horms/haproxy/blob/master/contrib/systemd/haproxy.service.in
+[Unit]
+Description=HAProxy Load Balancer
+After=network.target
+
+[Service]
+ExecStartPre=/usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -c -q
+ExecStart=/usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
+ExecReload=/bin/kill -USR2 $MAINPID
+KillMode=mixed
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
