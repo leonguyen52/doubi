@@ -64,11 +64,7 @@ installHaProxy(){
 		echo -e "\033[41;37m [Error] \033[0m HaProxy is already installed，please check again" && exit 1
 	fi
 	if [[ ${release}  == "centos" ]]; then
-		wget https://raw.githubusercontent.com/leonguyen52/doubi/master/haproxy
-		wget https://raw.githubusercontent.com/leonguyen52/doubi/master/haproxy.service
-		cp /root/haproxy /usr/sbin
-		chmod +x /usr/sbin/haproxy
-		cp /root/haproxy.service /etc/systemd/system/haproxy.service
+		yum update && yum install -y vim haproxy 
 	else
 		apt-get update && apt-get install -y vim haproxy
 	fi
